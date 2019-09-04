@@ -1,0 +1,4 @@
+envP7/
+P7app/__pycache__/
+P7app/tests/__pycache__/
+.pytest_cache/
