@@ -1,1 +1,2 @@
-# OC_projet7
+# OC_projet7 - GrandPy Bot
+

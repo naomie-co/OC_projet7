@@ -11,7 +11,7 @@ def recherche():
 	if request.method == 'POST': 
 		search=request.form['recherche']
 		if search is not "":
-			return "Votre question était : {}".format(search)
+			return render_template('result.html', question=search)
 	return index()
 
 #if __name__ == "__main__":
