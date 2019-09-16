@@ -1,6 +1,6 @@
 import requests
 
-API_KEY = "AIzaSyDaN2qgNHVhdL7XAaq0SHKhYaqyZV06Ez4"
+API_KEY = "YOUR_GOOGLE_API_KEY"
 class GoogleMapsApi:
 	def __init__(self, place):
 		self.place = place
