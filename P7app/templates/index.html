@@ -12,4 +12,59 @@
 </div>
 
 
-{% endblock %}
+        
+        
+   <script>
+        $("button#btn").click(function(){
+            /* STEP 3
+            An AJAX request is sent to the url /test_ajax/
+            */
+            $.ajax({
+                url: "/test_ajax/",
+                type: "GET",
+                data: {"question": $("input#question").val()},
+                /* STEP 4
+                +++++ In Python file (run.py)+++++
+                Data are collected from the request and sent to an API
+                */
+                /* STEP 5
+                +++++ In Python file (run.py)+++++
+                API Data are sent back to the template 
+                */
+                success: function(resp){
+                    /* STEP 6
+                    div#reponse is updated with API data 
+                    */
+                    $("div#reponse").append(resp.data)
+                }
+            })
+        })
+    </script>
+
+    <div id='reponse'>
+        <div>
+            <p>Votre question était : {{ question }}</p>
+        </div>
+        <div>
+            <p>Voici la réponse: {{ r }}</p>
+        </div>
+
+
+         <!-- OpenStreet Map-->
+        <div id='mapid'></div>
+        <script>
+        var mymap = L.map('mapid').setView([48.856614, 2.3522219], 13);
+        var marker = L.marker([48.856614, 2.3522219]).addTo(mymap);
+        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmFvbWllLWNvIiwiYSI6ImNrMjR3aGI3dzFlZDAzbG55d283NjZxazMifQ.08l7cYOS_a-aGy_mfrMRAw', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: 'pk.eyJ1IjoibmFvbWllLWNvIiwiYSI6ImNrMjR3aGI3dzFlZDAzbG55d283NjZxazMifQ.08l7cYOS_a-aGy_mfrMRAw'
+        }).addTo(mymap);
+        </script>
+
+
+    </div>
+{% endblock content %}
