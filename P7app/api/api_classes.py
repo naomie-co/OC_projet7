@@ -1,7 +1,9 @@
 import requests
 import wikipedia
 
+
 API_KEY = "AIzaSyDDyWtczDEZ7MtHtNXVdXcWb7TjFEusJF0"
+
 class GoogleMapsApi:
 	def __init__(self, place):
 		self.place = place
