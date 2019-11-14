@@ -23,7 +23,10 @@ class GoogleMapsApi:
 			data.append(result["status"])
 		except KeyError:
 			data = ['Paris, France', 48.856614, 2.3522219, 'OK']
-			print("Résultat par défault!")
+			print("KeyError. Résultat par défault!")
+		except IndexError:
+			data = ['Paris, France', 48.856614, 2.3522219, 'OK']
+			print("IndexError. Résultat par défault!")
 		return data
 
 
@@ -124,13 +127,13 @@ class WikiApi:
 
 #Paris = 48.856614, 2.3522219
 #Lyon = 45.764942, 4.898393 
-
-
+"""
 if __name__ == "__main__":
-	search = "Paris"
+	search = "Lyon"
 	test = GoogleMapsApi(search)
 	r_google = test.request() 
 	print(r_google)
 	w_request = WikiApi(r_google[1], r_google[2], search)
 	r = w_request.wiki_request()
 	print(r)
+"""
