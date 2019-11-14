@@ -2,7 +2,7 @@ import pytest
 import requests
 from P7app import app
 from P7app.parser.parser_class import Parser_search
-from P7app.api.api_classes import GoogleMapsApi
+from P7app.api.api_classes import GoogleMapsApi, WikiApi
 from P7app.api import api_classes
 
 def test_url():
@@ -41,8 +41,6 @@ class MockResponse:
 			"status": "OK"
 			}
 
-
-
 def testGoogleMapsApi(monkeypatch):
 	search = "Paris"
 	results = {
@@ -62,5 +60,18 @@ def testGoogleMapsApi(monkeypatch):
 	assert sample.request() == results
 
 
+
 def testWikiApi(monkeypatch):
-	pass
+	search = 45.764942, 4.898393
+	result = "L'église Saint-Athanase est un édifice religieux catholique français, situé à Villeurbanne dans la métropole de Lyon."
+
+	def mock_summary(wikipedia):
+		return "L'église Saint-Athanase est un édifice religieux catholique français, situé à Villeurbanne dans la métropole de Lyon."
+
+	monkeypatch.setattr(api_classes.wikipedia, "summary", mock_summary)
+	sample = WikiApi(45.764942, 4.898393, Lyon)
+	assert sample.wiki_request() == result
+
+
+
+
