@@ -37,18 +37,29 @@
   </head>
 
   <body>
-    <div id="reponse">
-          <!-- STEP 2
-          The user fills the input box with a word
-          -->
-          <input type="text" id="question"><br>
-          <button id="btn">Lancer AJAX</button><br>
-
-          <div id="retour"></div><br>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col col-lg-4">
+          <h1>GrandPy Bot</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg">
+          <div id="reponse">
+            <!-- STEP 2
+            The user fills the input box with a word
+            -->
+            <input type="text" id="question"><br>
+            <button id="btn">Lancer AJAX</button><br>
+            <div id="retour" class="col-lg"></div><br>
           </div>
-      <!-- OpenStreet Map-->
-
+        </div>
+        <div class="col-lg">
+          <!-- OpenStreet Map-->
           <div id="mapid"></div>
+        </div>  
+      </div>
+    </div>
 
         <script src="./static/script.js"></script>
       
