@@ -1,5 +1,5 @@
 import requests
-import wikipedia
+
 
 
 API_KEY = "AIzaSyDDyWtczDEZ7MtHtNXVdXcWb7TjFEusJF0"
@@ -32,7 +32,7 @@ class GoogleMapsApi:
 		return data
 
 
-class WikiGobal:
+class WikiGlobal:
 	"""To set up the WikiApi class"""
 	def __init__(self):
 		self.api_url = "http://en.wikipedia.org/w/api.php" #Default language in english
@@ -114,7 +114,7 @@ class WikiApi:
 		self.title = title
 
 	def wiki_request(self):
-		r = WikiGobal()
+		r = WikiGlobal()
 		r.language("fr")
 		data = r.w_geosearch(self.latitude, self.longitude, 
 		title=self.title, results=1, radius=(1000))
@@ -122,7 +122,7 @@ class WikiApi:
 		return result
 
 	def wiki_coordinates(self):
-		r = WikiGobal()
+		r = WikiGlobal()
 		r.language("fr")
 		result = r.get_coordinate(self.title)
 		return result

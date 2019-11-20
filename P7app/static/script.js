@@ -4,6 +4,7 @@ var mymap = L.map('mapid');
                 /* STEP 3
                 An AJAX request is sent to the url /test_ajax/
                 */
+
                 $.ajax({
                     url: "/test_ajax/",
                     type: "POST",
@@ -33,6 +34,8 @@ var mymap = L.map('mapid');
 
 
 
+                        
+                        
                         var lat = parseFloat(resp.lat);
                         var long = parseFloat(resp.long);
                         console.log(resp);
