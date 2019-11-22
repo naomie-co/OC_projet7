@@ -30,7 +30,7 @@ var mymap = L.map('mapid');
                         answer.textContent = resp.final_answer;
                         var dialogue = document.getElementById("retour");
                         dialogue.insertBefore(question, dialogue.childNodes[0]);
-                        dialogue.insertBefore(answer, dialogue.childNodes[0]);
+                        dialogue.insertBefore(answer, dialogue.childNodes[1]);
 
                         var lat = parseFloat(resp.lat);
                         var long = parseFloat(resp.long);
