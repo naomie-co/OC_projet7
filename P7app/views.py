@@ -25,7 +25,7 @@ def bot_answer():
 	g_answer = g_search.request()
 	w_request = WikiApi(g_answer[1], g_answer[2], search)
 	final_answer = w_request.wiki_request()
-	return jsonify(final_answer=final_answer, search=search, lat=g_answer[1], long=g_answer[2])
+	return jsonify(final_answer=final_answer, address=g_answer[0], lat=g_answer[1], long=g_answer[2])
 
 
 #if __name__ == "__main__":

@@ -47,7 +47,7 @@ class WikiGlobal:
 		data = requests.get(self.api_url, params=params)
 		return data.json()
 
-	def w_geosearch(self, latitude, longitude, title=None, results=10, radius=1000):
+	def w_geosearch(self, latitude, longitude, title=None, results=1, radius=1000):
 		geosearch_params = {
 		'list': 'geosearch',
 		'gsradius': radius,
@@ -55,17 +55,23 @@ class WikiGlobal:
 		'gslimit': results,
 		'format': 'json',
 		'action': 'query',
+		'titles': title,
 		}
-		if title:
-			geosearch_params['titles'] = title
+		#if title:
+		#	geosearch_params['titles'] = title
 
 		data_result = self.w_request(geosearch_params)
 		search_pages = data_result['query'].get('pages', None)
 		if search_pages:
 			search_results = [v['title'] for k, v in search_pages.items() if k != '-1']
 		else:
-			search_results = [d['title'] for d in data_result['query']['geosearch']]
+			geosearch_params["titles"] = "None"
+			data_result = self.w_request(geosearch_params)
+			search_pages = data_result['query'].get('pages', None)
+			if search_pages:
+				search_results = [v['title'] for k, v in search_pages.items() if k != '-1']
 
+			#search_results = [d['title'] for d in data_result['query']['geosearch']]
 		return search_results
 
 	def wiki_summary(self, title, sentence=0, char=0):
@@ -89,6 +95,7 @@ class WikiGlobal:
 		for k, v in summary.items():
 			result = v['extract']
 
+		print(result)
 		return result
 
 	def get_coordinate(self, title):
@@ -118,7 +125,11 @@ class WikiApi:
 		r.language("fr")
 		data = r.w_geosearch(self.latitude, self.longitude, 
 		title=self.title, results=1, radius=(1000))
-		result = r.wiki_summary(data[0], sentence=0, char=0)
+		print(data)
+		try:
+			result = r.wiki_summary(data[0], sentence=0, char=0)
+		except IndexError:
+			result = "T'as recherche est folle! Je n'ai pas d'anecdote sur ce lieu. J'en perds mon latin..."
 		return result
 
 	def wiki_coordinates(self):

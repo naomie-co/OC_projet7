@@ -1,14 +1,23 @@
 
 var mymap = L.map('mapid');
             $("button#btn").click(function(){
-                /* STEP 3
+
+
+            	/*The question is display in the page*/	
+            	var question = document.createElement("p");
+                question.textContent = $("input#question").val();
+                var dialogue = document.getElementById("retour");
+                dialogue.insertBefore(question, dialogue.childNodes[0]);
+				
+				/* STEP 3
                 An AJAX request is sent to the url /test_ajax/
                 */
-
                 $.ajax({
                     url: "/test_ajax/",
                     type: "POST",
                     data: {"question": $("input#question").val()},
+					
+
                     /* STEP 4
                     +++++ In Python file (run.py)+++++
                     Data are collected from the request and sent to an API
@@ -19,27 +28,25 @@ var mymap = L.map('mapid');
                     */
                     success: function(resp){
                         /* STEP 6
-                        div#reponse is replace with API data 
-                        
-                        $("div#reponse").replaceWith(resp.data)*/
-
-
-                        var question = document.createElement("p");
-                        question.textContent = resp.search;
+                       creates <p> elements to insert the answer*/                     
+                        var address = document.createElement("p");
+                        address.textContent = "Bien sûr mon poussin ! La voici : " + resp.address;
                         var answer = document.createElement("p");
                         answer.textContent = resp.final_answer;
                         var dialogue = document.getElementById("retour");
-                        dialogue.insertBefore(question, dialogue.childNodes[0]);
-                        dialogue.insertBefore(answer, dialogue.childNodes[1]);
+                        dialogue.insertBefore(address, dialogue.childNodes[1])
+                        dialogue.insertBefore(answer, dialogue.childNodes[2]);
 
+                       
                         var lat = parseFloat(resp.lat);
                         var long = parseFloat(resp.long);
+                        var title = resp.address;
                         console.log(resp);
                         console.log(lat, long);
 
-                        mymap.setView([lat, long], 13)
+                        mymap.setView([lat, long], 13);
                         var marker = L.marker([lat, long]).addTo(mymap);
-                        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+                        marker.bindPopup("<b>" + title + "</b>").openPopup();
 
                         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibmFvbWllLWNvIiwiYSI6ImNrMjR3aGI3dzFlZDAzbG55d283NjZxazMifQ.08l7cYOS_a-aGy_mfrMRAw', {
                           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
