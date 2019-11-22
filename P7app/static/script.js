@@ -29,18 +29,13 @@ var mymap = L.map('mapid');
                         var answer = document.createElement("p");
                         answer.textContent = resp.final_answer;
                         var dialogue = document.getElementById("retour");
-                        dialogue.appendChild(question);
-                        dialogue.appendChild(answer);
+                        dialogue.insertBefore(question, dialogue.childNodes[0]);
+                        dialogue.insertBefore(answer, dialogue.childNodes[0]);
 
-
-
-                        
-                        
                         var lat = parseFloat(resp.lat);
                         var long = parseFloat(resp.long);
                         console.log(resp);
                         console.log(lat, long);
-
 
                         mymap.setView([lat, long], 13)
                         var marker = L.marker([lat, long]).addTo(mymap);

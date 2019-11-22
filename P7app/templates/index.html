@@ -38,30 +38,34 @@
 
   <body>
     <div class="container">
+      <!--Title of the page-->
       <div class="row justify-content-md-center">
         <div class="col col-lg-4">
           <h1>GrandPy Bot</h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg">
-          <div id="reponse">
+     
+     <div class="row justify-content-md-center">
+        <div class="col-lg-5">
             <!-- STEP 2
             The user fills the input box with a word
             -->
             <input type="text" id="question"><br>
             <button id="btn">Lancer AJAX</button><br>
-            <div id="retour" class="col-lg"></div><br>
-          </div>
         </div>
-        <div class="col-lg">
-          <!-- OpenStreet Map-->
-          <div id="mapid"></div>
-        </div>  
+      </div>
+
+      <div class="row">
+        <!--Block to display the map-->
+        <!-- OpenStreet Map-->
+        <div class="col-lg-6" id="mapid"></div>
+        <!--Answer loaded by Ajax-->
+        <div id="retour" class="col-lg-6">
+        </div><br>    
       </div>
     </div>
 
-        <script src="./static/script.js"></script>
-      
+    <script src="./static/script.js"></script>
+
   </body>
 </html>
