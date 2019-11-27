@@ -29,6 +29,7 @@ class GoogleMapsApi:
 		except IndexError:
 			data = ['Paris, France', 48.856614, 2.3522219, 'OK']
 			print("IndexError. Résultat par défault!")
+		print(data)
 		return data
 
 
@@ -75,6 +76,7 @@ class WikiGlobal:
 		return search_results
 
 	def wiki_summary(self, title, sentence=0, char=0):
+		"""Get the article summary and the link to the wikipedia page"""
 		params = {
 			'prop': 'extracts',
 			'explaintext': '',
@@ -93,7 +95,7 @@ class WikiGlobal:
 		request = self.w_request(params)
 		summary = request['query']['pages']
 		for k, v in summary.items():
-			result = v['extract']
+			result = [v['extract'], "https://fr.wikipedia.org/wiki?curid=" + str(v['pageid'])]
 
 		print(result)
 		return result
@@ -108,8 +110,12 @@ class WikiGlobal:
 		request = self.w_request(params)
 		pages = request['query']['pages']
 		for k, v in pages.items():
-			print("Latitute: " + str(v['coordinates'][0]['lat']))
-			print("Longitude: " + str(v['coordinates'][0]['lon']))
+			try:
+				w_coordinates = (str(v['coordinates'][0]['lat']) + " " + str(v['coordinates'][0]['lon']))
+			except KeyError:
+				continue
+			print(w_coordinates)
+			return w_coordinates
 
 
 
@@ -127,7 +133,7 @@ class WikiApi:
 		title=self.title, results=1, radius=(1000))
 		print(data)
 		try:
-			result = r.wiki_summary(data[0], sentence=0, char=0)
+			result = r.wiki_summary(data[0], sentence=0, char=550) #char=550 to reduce the summary
 		except IndexError:
 			result = "T'as recherche est folle! Je n'ai pas d'anecdote sur ce lieu. J'en perds mon latin..."
 		return result
@@ -137,6 +143,17 @@ class WikiApi:
 		r.language("fr")
 		result = r.get_coordinate(self.title)
 		return result
+
+	def compare_coordinates(self, g_lat, g_long, w_lat, w_long):
+		"""Compare google and wikipedia gps coordinates for a given search. If the difference is smaller than X%, 
+		the wikipedia page search is launch"""
+		g_lat = float(g_lat)
+		g_long = float(g_long)
+		w_lat = float(w_lat)
+		w_long = float(w_long)
+		if ((g_lat - w_lat)/w_lat)*100 > 2 or ((g_long - w_long)/w_long)*100 > 2:
+			print("trop grande difference")
+		return False
 
 #Paris = 48.856614, 2.3522219
 #Lyon = 45.764942, 4.898393 

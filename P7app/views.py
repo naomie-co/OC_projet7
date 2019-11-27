@@ -24,8 +24,10 @@ def bot_answer():
 	g_search = GoogleMapsApi(search)
 	g_answer = g_search.request()
 	w_request = WikiApi(g_answer[1], g_answer[2], search)
+	get_wiki_coordinates = w_request.wiki_coordinates()
+	compare = w_request.compare_coordinates(g_answer[1], g_answer[2], get_wiki_coordinates[0], get_wiki_coordinates[1])
 	final_answer = w_request.wiki_request()
-	return jsonify(final_answer=final_answer, address=g_answer[0], lat=g_answer[1], long=g_answer[2])
+	return jsonify(final_answer=final_answer[0], link=final_answer[1], address=g_answer[0], lat=g_answer[1], long=g_answer[2])
 
 
 #if __name__ == "__main__":

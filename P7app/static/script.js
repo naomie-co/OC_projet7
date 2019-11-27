@@ -33,9 +33,13 @@ var mymap = L.map('mapid');
                         address.textContent = "Bien sûr mon poussin ! La voici : " + resp.address;
                         var answer = document.createElement("p");
                         answer.textContent = resp.final_answer;
+                        var wiki_link = document.createElement("a")
+                        wiki_link.textContent = "Pour en savoir plus, tu peux cliquer sur ce lien"
+                        wiki_link.href = resp.link;
                         var dialogue = document.getElementById("retour");
-                        dialogue.insertBefore(address, dialogue.childNodes[1])
+                        dialogue.insertBefore(address, dialogue.childNodes[1]);
                         dialogue.insertBefore(answer, dialogue.childNodes[2]);
+                        dialogue.insertBefore(wiki_link, dialogue.childNodes[3]);
 
                        
                         var lat = parseFloat(resp.lat);
