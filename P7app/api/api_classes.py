@@ -58,8 +58,6 @@ class WikiGlobal:
 		'action': 'query',
 		'titles': title,
 		}
-		#if title:
-		#	geosearch_params['titles'] = title
 
 		data_result = self.w_request(geosearch_params)
 		search_pages = data_result['query'].get('pages', None)
@@ -75,7 +73,7 @@ class WikiGlobal:
 			#search_results = [d['title'] for d in data_result['query']['geosearch']]
 		return search_results
 
-	def wiki_summary(self, title, sentence=0, char=0):
+	def wiki_summary(self, title, char=550):
 		"""Get the article summary and the link to the wikipedia page"""
 		params = {
 			'prop': 'extracts',
@@ -85,9 +83,7 @@ class WikiGlobal:
 			'action': 'query',
 		}
 
-		if sentence:
-			params['exsentences'] = sentence
-		elif char:
+		if char:
 			params['exchars'] = char
 		else:
 			params['exintro'] = ''
@@ -95,9 +91,10 @@ class WikiGlobal:
 		request = self.w_request(params)
 		summary = request['query']['pages']
 		for k, v in summary.items():
-			result = [v['extract'], "https://fr.wikipedia.org/wiki?curid=" + str(v['pageid'])]
-
-		print(result)
+			try:
+				result = [v['extract'], "https://fr.wikipedia.org/wiki?curid=" + str(v['pageid'])]
+			except KeyError:
+				result = ["T'as recherche est folle! Je n'ai pas d'anecdote sur ce lieu. J'en perds mon latin... tu peux cliquer sur le lien pour en savoir plus sur Paris!", "https://fr.wikipedia.org/wiki?curid=681159" ]
 		return result
 
 	def get_coordinate(self, title):
@@ -111,29 +108,42 @@ class WikiGlobal:
 		pages = request['query']['pages']
 		for k, v in pages.items():
 			try:
-				w_coordinates = (str(v['coordinates'][0]['lat']) + " " + str(v['coordinates'][0]['lon']))
+				w_coordinates = ((v['coordinates'][0]['lat']), (v['coordinates'][0]['lon']))
 			except KeyError:
+				print ("get_coordinate KeyError!")
 				continue
-			print(w_coordinates)
 			return w_coordinates
 
 
 
 
 class WikiApi:
-	def __init__(self, latitude, longitude, title):
-		self.latitude = latitude
-		self.longitude = longitude
+	def __init__(self, g_latitude, g_longitude, title):
+		self.g_latitude = g_latitude
+		self.g_longitude = g_longitude
 		self.title = title
+		self.w_latitude = 0
+		self.w_longitude = 0
 
-	def wiki_request(self):
+	def wiki_geo_request(self):
+		"""Use this method to find a wikipedia summary, with GPS coordinates
+		self.w_latitude and self.w_longitude souldn't be equal to 0"""
 		r = WikiGlobal()
 		r.language("fr")
-		data = r.w_geosearch(self.latitude, self.longitude, 
+		data = r.w_geosearch(self.w_latitude, self.w_longitude, 
 		title=self.title, results=1, radius=(1000))
-		print(data)
+		print( "in wiki_request", data)
 		try:
-			result = r.wiki_summary(data[0], sentence=0, char=550) #char=550 to reduce the summary
+			result = r.wiki_summary(data[0], char=550) #char=550 to reduce the summary
+		except IndexError:
+			result = "T'as recherche est folle! Je n'ai pas d'anecdote sur ce lieu. J'en perds mon latin..."
+		return result
+	def wiki_summary_request(self):
+		"""Use this method to find a wikipedia summary, witout GPS coordinates"""
+		r = WikiGlobal()
+		r.language("fr")
+		try:
+			result = r.wiki_summary(self.title, char=550)
 		except IndexError:
 			result = "T'as recherche est folle! Je n'ai pas d'anecdote sur ce lieu. J'en perds mon latin..."
 		return result
@@ -142,18 +152,24 @@ class WikiApi:
 		r = WikiGlobal()
 		r.language("fr")
 		result = r.get_coordinate(self.title)
-		return result
+		print(result)
+		if result != None:
+			self.w_latitude = result[0]
+			self.w_longitude = result[1]
+			return True
 
-	def compare_coordinates(self, g_lat, g_long, w_lat, w_long):
+	def compare_coordinates(self):
 		"""Compare google and wikipedia gps coordinates for a given search. If the difference is smaller than X%, 
 		the wikipedia page search is launch"""
-		g_lat = float(g_lat)
-		g_long = float(g_long)
-		w_lat = float(w_lat)
-		w_long = float(w_long)
-		if ((g_lat - w_lat)/w_lat)*100 > 2 or ((g_long - w_long)/w_long)*100 > 2:
+		g_lat = self.g_latitude
+		g_long = self.g_longitude
+		w_lat = self.w_latitude
+		w_long = self.w_longitude
+		if ((g_lat - w_lat)/w_lat)*100 > 10 or ((g_long - w_long)/w_long)*100 > 10:
 			print("trop grande difference")
-		return False
+			self.w_latitude = 0
+			self.w_longitude = 0
+			return False
 
 #Paris = 48.856614, 2.3522219
 #Lyon = 45.764942, 4.898393 

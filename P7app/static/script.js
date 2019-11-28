@@ -30,7 +30,7 @@ var mymap = L.map('mapid');
                         /* STEP 6
                        creates <p> elements to insert the answer*/                     
                         var address = document.createElement("p");
-                        address.textContent = "Bien sûr mon poussin ! La voici : " + resp.address;
+                        address.textContent = "Bien sûr mon poussin ! Voici l'adresse : " + resp.address;
                         var answer = document.createElement("p");
                         answer.textContent = resp.final_answer;
                         var wiki_link = document.createElement("a")

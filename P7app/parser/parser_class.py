@@ -13,7 +13,7 @@ class Parser_search:
 		"""Remove the punctuation from the sentence passed in object instantiation"""
 		for punct in string.punctuation:
 			self.user_sentence = self.user_sentence.replace(punct, " ")
-		#return self.user_sentence
+		return self.user_sentence
 
 
 	def filter_parser(self):
@@ -24,7 +24,7 @@ class Parser_search:
 				sentence.append(word)
 				final_sentence = " ".join(sentence)
 				self.user_sentence = final_sentence
-		#return self.user_sentence
+		return self.user_sentence
 
 	def focus_search(self):
 		"""Method to get the essential words for a futur request"""
