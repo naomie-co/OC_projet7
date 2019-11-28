@@ -1,8 +1,9 @@
 import requests
+import os
 
 
 
-API_KEY = "AIzaSyDDyWtczDEZ7MtHtNXVdXcWb7TjFEusJF0"
+API_KEY = os.getenv("API_KEY")
 
 class GoogleMapsApi:
 	"""GoogleMpasApi class allows to interact with the google maps API. 
@@ -111,6 +112,7 @@ class WikiGlobal:
 		return result
 
 	def get_coordinate(self, title):
+		"""Find the GPS coordinates linked to the page search in parameters"""
 		params = {
 			"action": "query",
 			"format": "json",

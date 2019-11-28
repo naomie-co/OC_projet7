@@ -1,5 +1,6 @@
 
 var mymap = L.map('mapid');
+
             $("button#btn").click(function(){
 
 
