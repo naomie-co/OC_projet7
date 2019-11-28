@@ -5,11 +5,21 @@ import requests
 API_KEY = "AIzaSyDDyWtczDEZ7MtHtNXVdXcWb7TjFEusJF0"
 
 class GoogleMapsApi:
+	"""GoogleMpasApi class allows to interact with the google maps API. 
+	It needs a API_KEY.
+	Initiate the class with a place key-word and call the request method to find:
+		-an address
+		-GPS coordinates
+		-verify the status code
+	"""
 	def __init__(self, place):
 		self.place = place
+		#API's request link
 		self.url = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
 
 	def request(self):
+		"""Method to find an address, the GPS coordinates, and to verify the status code of the self.place instantiation variable
+		Return a list"""
 		parameters = {
 			"query": self.place,
 			"inputtype": "textquery",
@@ -24,9 +34,11 @@ class GoogleMapsApi:
 			data.append(result["results"][0]["geometry"]["location"]["lng"])
 			data.append(result["status"])
 		except KeyError:
+			#Default values in case of KeyError
 			data = ['Paris, France', 48.856614, 2.3522219, 'OK']
 			print("KeyError. Résultat par défault!")
 		except IndexError:
+			#Default values in case of IndexError
 			data = ['Paris, France', 48.856614, 2.3522219, 'OK']
 			print("IndexError. Résultat par défault!")
 		print(data)
@@ -34,17 +46,18 @@ class GoogleMapsApi:
 
 
 class WikiGlobal:
-	"""To set up the WikiApi class"""
+	"""Class to configure wikipedia queries so its can be used in the WikiApi class"""
 	def __init__(self):
+		#API's request link
 		self.api_url = "http://en.wikipedia.org/w/api.php" #Default language in english
 
 	def language(self, lang="fr"):
-		"""Set up the language of the requests"""
+		"""Set up the request language"""
 		self.api_url = "http://" + lang.lower() + ".wikipedia.org/w/api.php"
 		
 
 	def w_request(self, params):
-		"""Make a request on wikipedia's API"""
+		"""Send a request to the wikipedia API with the arguments passed in parameters"""
 		data = requests.get(self.api_url, params=params)
 		return data.json()
 
