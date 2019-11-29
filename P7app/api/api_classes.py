@@ -3,7 +3,8 @@ import os
 
 
 
-API_KEY = os.getenv("API_KEY")
+#API_KEY = os.getenv("API_KEY")
+API_KEY = "AIzaSyBwNqdl783xFcQRXeVnBtVWM8G8APoYoA8"
 
 class GoogleMapsApi:
 	"""GoogleMpasApi class allows to interact with the google maps API. 

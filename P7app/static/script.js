@@ -1,12 +1,18 @@
 
 var mymap = L.map('mapid');
 
-            $("button#btn").click(function(){
+            $("button#btn").click(function(){test()})
 
-
+            $("input#question").keydown(function(event){
+        if (event.key === "Enter") {
+        	test()
+        }})
+      
+function test(){
             	/*The question is display in the page*/	
             	var question = document.createElement("p");
                 question.textContent = $("input#question").val();
+                question.setAttribute("class", "bg-primary");
                 var dialogue = document.getElementById("retour");
                 dialogue.insertBefore(question, dialogue.childNodes[0]);
 				
@@ -32,10 +38,13 @@ var mymap = L.map('mapid');
                        creates <p> elements to insert the answer*/                     
                         var address = document.createElement("p");
                         address.textContent = "Bien sûr mon poussin ! Voici l'adresse : " + resp.address;
+                        address.setAttribute("class", "bg-info");
                         var answer = document.createElement("p");
                         answer.textContent = resp.final_answer;
-                        var wiki_link = document.createElement("a")
-                        wiki_link.textContent = "Pour en savoir plus, tu peux cliquer sur ce lien"
+                        answer.setAttribute("class", "bg-info");
+                        var wiki_link = document.createElement("a");
+                        wiki_link.textContent = "Pour en savoir plus, tu peux cliquer sur ce lien";
+                        wiki_link.setAttribute("class", "bg-warning");
                         wiki_link.href = resp.link;
                         var dialogue = document.getElementById("retour");
                         dialogue.insertBefore(address, dialogue.childNodes[1]);
@@ -48,8 +57,15 @@ var mymap = L.map('mapid');
                         var title = resp.address;
                         console.log(resp);
                         console.log(lat, long);
+                        console.log(mymap)
 
-                        mymap.setView([lat, long], 13);
+                    var show = document.getElementById("mapid");
+                    show.style.opacity = 1;
+                   
+
+
+						//invalidateSize to update the leaflet map
+                        mymap.invalidateSize().setView([lat, long], 13);
                         var marker = L.marker([lat, long]).addTo(mymap);
                         marker.bindPopup("<b>" + title + "</b>").openPopup();
 
@@ -59,7 +75,12 @@ var mymap = L.map('mapid');
                           id: 'mapbox.streets',
                           accessToken: 'pk.eyJ1IjoibmFvbWllLWNvIiwiYSI6ImNrMjR3aGI3dzFlZDAzbG55d283NjZxazMifQ.08l7cYOS_a-aGy_mfrMRAw'
                     }).addTo(mymap);
-                       
+
+
+                 
+ 
+
+   
                   }
                 })
-            })
+           }        
