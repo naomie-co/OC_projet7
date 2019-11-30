@@ -2,3 +2,7 @@ envP7/
 P7app/__pycache__/
 P7app/tests/__pycache__/
 .pytest_cache/
+P7app/api/__pycache__/api_classes.cpython-36.pyc
+P7app/parser/__pycache__/parser_class.cpython-36.pyc
+P7app/parser/__pycache__/stop_words.cpython-36.pyc
+P7app/tests/__pycache__/test_views.cpython-36-pytest-5.0.1.p

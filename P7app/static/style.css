@@ -1,5 +1,45 @@
 		     
+/*Leaflet map style*/
 #mapid
 {
     height: 180px;
+    opacity: 0;
+}
+
+/*Loading bar style*/
+#progress {
+	opacity: 0;
+}
+
+.progress-bar{
+	width: 0%
+}
+
+/* User's message container box */
+.userContainer {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0;
+  float: right;
+  clear: left;
+}
+
+/* Bot's message container box */
+.botContainer {
+  border-color: 2px solid #ccc;
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  float: left;
+  clear: both;
+}
+
+/* Clear floats */
+.userContainer::after {
+  content: "";
+  clear: both;
+  display: table;
 }
