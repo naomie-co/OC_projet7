@@ -4,7 +4,6 @@ import os
 import requests
 
 API_KEY = os.getenv("API_K")
-print(API_KEY, "value does not exist")
 
 
 class GoogleMapsApi:
