@@ -3,7 +3,7 @@
 import os
 import requests
 
-API_KEY = os.getenv(API_K)
+API_KEY = os.getenv("API_K")
 
 
 class GoogleMapsApi:
