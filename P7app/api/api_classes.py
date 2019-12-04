@@ -29,6 +29,7 @@ class GoogleMapsApi:
         }
         request = requests.get(self.url, params=parameters)
         result = request.json()
+        print(result)
         data = []
         try:
             data.append(result["results"][0]["formatted_address"])
