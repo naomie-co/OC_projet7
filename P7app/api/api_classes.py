@@ -5,7 +5,6 @@ import requests
 
 API_KEY = os.getenv("API_K")
 
-
 class GoogleMapsApi:
     """GoogleMpasApi class allows to interact with the google maps API.
     It needs a API_KEY.
