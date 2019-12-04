@@ -4,7 +4,7 @@ import os
 import requests
 
 API_KEY = os.getenv("API_K")
-
+print(API_KEY)
 
 class GoogleMapsApi:
     """GoogleMpasApi class allows to interact with the google maps API.
@@ -45,6 +45,7 @@ class GoogleMapsApi:
             data = ['Je suis un peu rouillé, tu voulais que je te parle de \
             Paris, France, hein?', 48.856614, 2.3522219, 'OK']
             print("IndexError. Résultat par défault!")
+        print(data)
         return data
 
 class WikiGlobal:
